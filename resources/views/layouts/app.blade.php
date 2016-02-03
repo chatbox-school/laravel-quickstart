@@ -52,9 +52,17 @@
 				</div>
 
 				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						&nbsp;
-					</ul>
+					@if (Auth::check())
+						<ul class="nav navbar-nav navbar-right">
+							<li><a>ようこそ{{Auth::user()->name}}さん</a></li>
+							<li><a href="/auth/logout">ログアウト</a></li>
+						</ul>
+					@else
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="/auth/login">ログイン</a></li>
+							<li><a href="/auth/register">新規登録</a></li>
+						</ul>
+					@endif
 				</div>
 			</div>
 		</nav>

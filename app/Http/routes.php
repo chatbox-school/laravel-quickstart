@@ -17,17 +17,17 @@ use Illuminate\Http\Request;
 /**
  * Show Task Dashboard
  */
-Route::get('/', function () {
+Route::get('/', ["middleware"=>"auth",function () {
     return view('tasks', [
     	'tasks' => Task::orderBy('created_at', 'asc')->get()
     ]);
-});
+}]);
 
 
 /**
  * Add New Task
  */
-Route::post('/task', function (Request $request) {
+Route::post('/task',["middleware"=>"auth", function (Request $request) {
 	$validator = Validator::make($request->all(), [
 		'name' => 'required|max:255',
 	]);
@@ -43,14 +43,23 @@ Route::post('/task', function (Request $request) {
 	$task->save();
 
 	return redirect('/');
-});
+}]);
 
 
 /**
  * Delete Task
  */
-Route::delete('/task/{id}', function ($id) {
+Route::delete('/task/{id}', ["middleware"=>"auth",function ($id) {
 	Task::findOrFail($id)->delete();
 
 	return redirect('/');
-});
+}]);
+
+// Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
