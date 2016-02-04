@@ -17,7 +17,8 @@ use Illuminate\Http\Request;
 /**
  * Show Task Dashboard
  */
-Route::get('/', ["middleware"=>"auth",function () {
+Route::get('/', ["middleware"=>"auth",function (\Psr\Log\LoggerInterface $log) {
+	$log->alert(Auth::user()->name . " logined.");
     return view('tasks', [
     	'tasks' => Task::orderBy('created_at', 'asc')->get()
     ]);

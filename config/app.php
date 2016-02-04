@@ -145,6 +145,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        \Chatbox\Heroku\HerokuServiceProvider::class
+
     ],
 
     /*
